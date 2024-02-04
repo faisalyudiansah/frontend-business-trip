@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Pagination = ({ page, setPage, lastPage }) => {
+const Pagination = ({ page, setOffset, lastPage }) => {
   function scrollPageToTop() {
     scrollTo({
       behavior: 'smooth',
@@ -9,13 +9,13 @@ const Pagination = ({ page, setPage, lastPage }) => {
   }
 
   function handleNextPagination() {
-    setPage((prevState) => prevState + 1)
+    setOffset((prevState) => prevState + 1)
     scrollPageToTop()
   }
 
   function handlePrevPagination() {
     if (page > 0) {
-      setPage((prevState) => prevState - 1)
+      setOffset((prevState) => prevState - 1)
       scrollPageToTop()
     }
   }
@@ -25,7 +25,7 @@ const Pagination = ({ page, setPage, lastPage }) => {
       <div className='flex justify-center items-center gap-4 mb-5'>
         <button
           onClick={handlePrevPagination}
-          className={`p-2 rounded-lg ${page === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-400' : 'bg-base-300  hover:bg-base-200'}`}
+          className={`p-2 rounded-lg ${page === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
         >
           Prev
         </button>
