@@ -1,9 +1,11 @@
 import React from 'react'
-import { CiLocationOn } from "react-icons/ci"
+import { CiMap } from "react-icons/ci";
+import { GiPathDistance } from "react-icons/gi"
+import { TfiPencilAlt } from "react-icons/tfi";
 
 const CardBusiness = ({ business }) => {
   return (
-    <div className="card w-80 h-[450px] bg-base-300 shadow-lg">
+    <div className="card w-96 h-[450px] bg-base-300 shadow-lg">
       <figure className='h-52'>
         <img
           src={business.image_url}
@@ -14,11 +16,32 @@ const CardBusiness = ({ business }) => {
       <div className="card-body flex-col justify-between">
         <h2 className="card-title">
           {business.name}
-          <div className="badge badge-secondary">NEW</div>
+          <div className="badge badge-secondary">{business.rating}</div>
         </h2>
-        <div className='flex items-center gap-2'>
-          <CiLocationOn className='text-2xl' />
-          <div className='text-sm'>{business.location.display_address.join(', ')}</div>
+        <div>
+          <div className='flex items-center gap-2'>
+            <CiMap size={25} />
+            <div className='text-sm'>{business.location.display_address.join(', ')}</div>
+          </div>
+          <div className='flex items-center gap-2 ml-1'>
+            <GiPathDistance size={18} />
+            <div className='text-sm ml-1'>{business.distance.toFixed(0)} M</div>
+          </div>
+          <div className='flex items-center gap-2 ml-1'>
+            <TfiPencilAlt size={17} />
+            <div className='text-sm ml-1'>{business.review_count} Reviews</div>
+          </div>
+          <div className="rating rating-md mt-2 rating-half items-center">
+            {[0.1, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((value, index) => (
+              <input
+                key={index}
+                type="radio"
+                name={`rating-${business.id}`}
+                className={`bg-orange-400 mask mask-star-2 mask-half-${index % 2 === 0 ? '1' : '2'}`}
+                checked={business.rating >= value}
+              />
+            ))}
+          </div>
         </div>
         <div className='flex items-center justify-between'>
           <div className="card-actions justify-start">
