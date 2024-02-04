@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import CardBusiness from '../components/CardBusiness'
 import axios from 'axios'
+import CardBusiness from '../components/CardBusiness'
 import Pagination from '../components/homepage/Pagination'
 import LoadingScreen from '../components/LoadingScreen'
 import InputSearch from '../components/homepage/InputSearch'
+import NotFoundWarning from '../components/NotFoundWarning'
+import SortBy from '../components/homepage/filterComponents/SortBy'
+import SearchCategory from '../components/homepage/filterComponents/SearchCategory'
+import GoogleMaps from '../components/homepage/filterComponents/GoogleMaps'
 import { IoFilterOutline } from "react-icons/io5"
-import GoogleMapReact from 'google-map-react'
-import { HiLocationMarker } from "react-icons/hi"
-import SortBy from '../components/homepage/filter/SortBy'
-import SearchCategory from '../components/homepage/filter/SearchCategory'
-
-const MarkerIcon = ({ lat, lng }) => {
-  return (
-    <HiLocationMarker
-      size={30}
-      color="red"
-      lat={lat}
-      lng={lng}
-    />
-  )
-}
 
 const Home = () => {
   let [location, setLocation] = useState(`newyork`)
@@ -37,6 +26,7 @@ const Home = () => {
   let [longitude, setLongitude] = useState(0)
   let [radius, setRadius] = useState(40000)
   let [loading, setLoading] = useState(true)
+  let [searchNearby, setSearchNearby] = useState(false)
 
   async function fetchBusiness() {
     try {
@@ -71,42 +61,22 @@ const Home = () => {
     }
   }
 
-  function handleMapChange({ center }) {
-    console.log(center, `<<<<`)
-    console.log(center.lat, '<<<<')
-    console.log(center.lng, '<<<<')
-    setLatitude(center.lat)
-    setLongitude(center.lng)
-    setRadius(500)
-  }
-
-  function startSearchNearby() {
-    setCenter({
-      lat: latitude,
-      lng: longitude,
-    })
-    fetchBusiness()
-  }
-
   useEffect(() => {
+    setSearchNearby(false)
     fetchBusiness()
-  }, [offset, term, sortBy, category])
+  }, [offset, term, sortBy, category, searchNearby])
 
   return (
-    <section id="products" className='bg-base-100 p-10 min-h-screen'>
+    <section id="business" className='bg-base-100 p-10 min-h-screen'>
       {loading ? (
         <LoadingScreen />
       ) : (
         <>
           <div className='mb-14'>
-            <div>
-              <h2 className='text-2xl font-bold text-center mb-10 font-serif'>List Business "New York"</h2>
-            </div>
-            <div className='flex justify-center mb-4'>
-              <InputSearch setTerm={setTerm} setOffset={setOffset} />
-            </div>
+            <h2 className='text-2xl font-bold text-center mb-10 font-serif'>List Business "New York"</h2>
+            <InputSearch setTerm={setTerm} setOffset={setOffset} />
             <div className='flex justify-center items-center'>
-              <div className="collapse rounded-2xl hover:bg-base-200 w-[600px] shadow-md bg-base-300 mb-7">
+              <div className="collapse rounded-2xl hover:bg-base-200 w-[700px] shadow-md bg-base-300 mb-7">
                 <input type="checkbox" />
                 <div className="collapse-title ">
                   <div className='text-lg text-center font-bold flex justify-center items-center gap-2 ml-6'>
@@ -117,35 +87,28 @@ const Home = () => {
                 <div className="collapse-content mx-5">
                   <SortBy setSortBy={setSortBy} sortBy={sortBy} />
                   <SearchCategory setCategory={setCategory} setOffset={setOffset} />
-                  <div className='bg-base-100 p-5 rounded-xl mb-5'>
-                    <div className='flex justify-between items-center mb-4'>
-                      <p>Search by nearby location "500m"</p>
-                      <button onClick={startSearchNearby} className='btn bg-base-300 hover:bg-base-200'>Search here</button>
-                    </div>
-                    <div style={{ height: '400px', width: '100%' }}>
-                      <GoogleMapReact
-                        bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLE_MAPS_KEY }}
-                        defaultCenter={center}
-                        defaultZoom={11}
-                        onChange={handleMapChange}
-                      >
-                        <MarkerIcon
-                          lat={center.lat}
-                          lng={center.lng}
-                        />
-                      </GoogleMapReact>
-                    </div>
-                  </div>
+                  <GoogleMaps
+                    center={center}
+                    fetchBusiness={fetchBusiness}
+                    setLatitude={setLatitude}
+                    setLongitude={setLongitude}
+                    setRadius={setRadius}
+                    setCenter={setCenter}
+                  />
                 </div>
               </div>
             </div>
             <div className='flex flex-wrap items-center justify-center gap-10'>
-              {businesses.businesses.map(business => (
-                <CardBusiness
-                  key={business.id}
-                  business={business}
-                />
-              ))}
+              {businesses.businesses.length === 0 ? (
+                <NotFoundWarning />
+              ) : (
+                businesses.businesses.map(business => (
+                  <CardBusiness
+                    key={business.id}
+                    business={business}
+                  />
+                ))
+              )}
             </div>
           </div>
           <Pagination page={offset} lastPage={businesses.total} setOffset={setOffset} />

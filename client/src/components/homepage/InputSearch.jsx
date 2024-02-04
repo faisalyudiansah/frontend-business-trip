@@ -13,21 +13,23 @@ const InputSearch = ({ setTerm, setOffset }) => {
   }
 
   return (
-    <div className='relative'>
-      <input
-        className='w-80 md:w-96 p-1 rounded-xl bg-base-300 outline-none placeholder-base-100 hover:shadow-md'
-        style={{ textIndent: '10px' }}
-        placeholder='Search business...'
-        ref={searchRef}
-        onKeyUp={(e) => e.key === 'Enter' && handleSearch()}
-      />
-      <button className='absolute top-1 end-2'>
-        <IoSearch
-          className='text-base-primary-content hover:text-base-100 hover:scale-110'
-          size={24}
-          onClick={handleSearch}
+    <div className='flex justify-center mb-4'>
+      <div className='relative'>
+        <input
+          className='w-80 md:w-96 p-1 rounded-xl bg-base-300 outline-none placeholder-base-100 hover:shadow-md'
+          style={{ textIndent: '10px' }}
+          placeholder='Search business...'
+          ref={searchRef}
+          onKeyUp={(e) => e.key === 'Enter' && handleSearch()}
         />
-      </button>
+        <button className='absolute top-1 end-2'>
+          <IoSearch
+            className='text-base-primary-content hover:text-base-100 hover:scale-110'
+            size={24}
+            onClick={handleSearch}
+          />
+        </button>
+      </div>
     </div>
   )
 }

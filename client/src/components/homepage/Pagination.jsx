@@ -9,8 +9,10 @@ const Pagination = ({ page, setOffset, lastPage }) => {
   }
 
   function handleNextPagination() {
-    setOffset((prevState) => prevState + 1)
-    scrollPageToTop()
+    if (lastPage !== 0) {
+      setOffset((prevState) => prevState + 1)
+      scrollPageToTop()
+    }
   }
 
   function handlePrevPagination() {
@@ -32,7 +34,7 @@ const Pagination = ({ page, setOffset, lastPage }) => {
         <p>{page + 1} of {lastPage}</p>
         <button
           onClick={handleNextPagination}
-          className='bg-base-300 hover:bg-base-200  p-2 rounded-lg'
+          className={`p-2 rounded-lg ${lastPage === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
         >
           Next
         </button>

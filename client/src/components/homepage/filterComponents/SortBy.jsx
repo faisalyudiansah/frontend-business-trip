@@ -1,6 +1,12 @@
 import React from 'react'
 
 const SortBy = ({ setSortBy, sortBy }) => {
+  function scrollPageToTop() {
+    scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
+  }
 
   function getLabelTextSortBy(filter) {
     switch (filter) {
@@ -26,7 +32,10 @@ const SortBy = ({ setSortBy, sortBy }) => {
             </span>
             <input
               type="radio"
-              onClick={() => setSortBy(filter)}
+              onClick={() => {
+                scrollPageToTop()
+                setSortBy(filter)
+              }}
               name="radio-sortBy"
               className="radio"
               defaultChecked={filter === sortBy}
