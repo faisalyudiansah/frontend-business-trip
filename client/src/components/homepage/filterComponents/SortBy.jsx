@@ -1,6 +1,11 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { changePayloadOffset, changePayloadSortBy, fetchBusiness } from '../../../store/appSlice'
 
-const SortBy = ({ setSortBy, sortBy }) => {
+const SortBy = () => {
+  let dispatch = useDispatch()
+  let { fetchSortBy } = useSelector((state) => state.appSlice)
+
   function scrollPageToTop() {
     scrollTo({
       behavior: 'smooth',
@@ -27,18 +32,20 @@ const SortBy = ({ setSortBy, sortBy }) => {
       {['distance', 'rating', 'review_count', 'best_match'].map((filter, i) => (
         <div className="form-control" key={i}>
           <label className="label cursor-pointer">
-            <span className={"label-text" + (filter === sortBy ? " font-bold" : '')}>
+            <span className={"label-text" + (filter === fetchSortBy ? " font-bold" : '')}>
               {getLabelTextSortBy(filter)}
             </span>
             <input
               type="radio"
               onClick={() => {
                 scrollPageToTop()
-                setSortBy(filter)
+                dispatch(changePayloadOffset(0))
+                dispatch(changePayloadSortBy(filter))
+                dispatch(fetchBusiness())
               }}
               name="radio-sortBy"
               className="radio"
-              defaultChecked={filter === sortBy}
+              defaultChecked={filter === fetchSortBy}
             />
           </label>
         </div>

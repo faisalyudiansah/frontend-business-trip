@@ -1,6 +1,11 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { changePayloadOffset, fetchBusiness } from '../../store/appSlice'
 
-const Pagination = ({ page, setOffset, lastPage }) => {
+const Pagination = ({ lastPage }) => {
+  let dispatch = useDispatch()
+  let { fetchOffset } = useSelector((state) => state.appSlice)
+
   function scrollPageToTop() {
     scrollTo({
       behavior: 'smooth',
@@ -9,16 +14,18 @@ const Pagination = ({ page, setOffset, lastPage }) => {
   }
 
   function handleNextPagination() {
-    if (lastPage !== 0) {
-      setOffset((prevState) => prevState + 1)
+    if (lastPage !== 0 && fetchOffset + 1 !== lastPage) {
+      dispatch(changePayloadOffset(fetchOffset + 1))
       scrollPageToTop()
+      dispatch(fetchBusiness())
     }
   }
 
   function handlePrevPagination() {
-    if (page > 0) {
-      setOffset((prevState) => prevState - 1)
+    if (fetchOffset > 0) {
+      dispatch(changePayloadOffset(fetchOffset - 1))
       scrollPageToTop()
+      dispatch(fetchBusiness())
     }
   }
 
@@ -27,14 +34,14 @@ const Pagination = ({ page, setOffset, lastPage }) => {
       <div className='flex justify-center items-center gap-4 mb-5'>
         <button
           onClick={handlePrevPagination}
-          className={`p-2 rounded-lg ${page === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
+          className={`p-2 rounded-lg ${fetchOffset === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
         >
           Prev
         </button>
-        <p>{page + 1} of {lastPage}</p>
+        <p>{fetchOffset + 1} of {lastPage}</p>
         <button
           onClick={handleNextPagination}
-          className={`p-2 rounded-lg ${lastPage === 0 ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
+          className={`p-2 rounded-lg ${fetchOffset === lastPage || fetchOffset + 1 === lastPage ? 'bg-gray-800 cursor-not-allowed text-neutral-500' : 'bg-base-300  hover:bg-base-200'}`}
         >
           Next
         </button>

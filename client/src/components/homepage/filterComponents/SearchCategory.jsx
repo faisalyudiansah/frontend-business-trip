@@ -1,6 +1,9 @@
 import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { changePayloadCategory, changePayloadOffset, fetchBusiness } from '../../../store/appSlice'
 
-const SearchCategory = ({ setCategory, setOffset }) => {
+const SearchCategory = () => {
+  let dispatch = useDispatch()
   let categoryRef = useRef()
 
   function scrollPageToTop() {
@@ -14,8 +17,9 @@ const SearchCategory = ({ setCategory, setOffset }) => {
     let searchCategory = categoryRef.current.value.trim()
     if (searchCategory.length > 0) {
       scrollPageToTop()
-      setCategory(searchCategory)
-      setOffset(0)
+      dispatch(changePayloadOffset(0))
+      dispatch(changePayloadCategory(searchCategory))
+      dispatch(fetchBusiness())
     }
   }
 

@@ -1,7 +1,12 @@
 import React from 'react'
-import { GoogleMap, Marker, useLoadScript, LoadScript, OverlayView } from '@react-google-maps/api'
+import { GoogleMap, Marker, useLoadScript, OverlayView } from '@react-google-maps/api'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeLocationMaps, changePayloadOffset, fetchBusiness } from '../../../store/appSlice'
 
-const GoogleMaps = ({ center, fetchBusiness, setLatitude, setLongitude, setRadius, setCenter }) => {
+const GoogleMaps = () => {
+  let dispatch = useDispatch()
+  let { locationCenter } = useSelector((state) => state.appSlice)
+
   function scrollPageToTop() {
     scrollTo({
       behavior: 'smooth',
@@ -21,13 +26,13 @@ const GoogleMaps = ({ center, fetchBusiness, setLatitude, setLongitude, setRadiu
   }
 
   function handleMapClick(event) {
-    setCenter({
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    })
-    setLatitude(event.latLng.lat())
-    setLongitude(event.latLng.lng())
-    setRadius(500)
+    let newLat = event.latLng.lat()
+    let newLng = event.latLng.lng()
+    let newPosition = {
+      lat: newLat,
+      lng: newLng
+    }
+    dispatch(changeLocationMaps(newPosition, newLat, newLng))
   }
 
   return (
@@ -36,17 +41,18 @@ const GoogleMaps = ({ center, fetchBusiness, setLatitude, setLongitude, setRadiu
         <p>Search by nearby location "500m"</p>
         <button onClick={() => {
           scrollPageToTop()
-          fetchBusiness()
+          dispatch(changePayloadOffset(0))
+          dispatch(fetchBusiness())
         }} className='btn bg-base-300 hover:bg-base-200'>Select this area</button>
       </div>
       <GoogleMap
         mapContainerStyle={{ height: '400px', width: '100%' }}
         zoom={12}
-        center={center}
+        center={locationCenter}
         onClick={handleMapClick}
       >
-        <OverlayView position={center} mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-          <Marker position={center} />
+        <OverlayView position={locationCenter} mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
+          <Marker position={locationCenter} />
         </OverlayView>
       </GoogleMap>
     </div >
