@@ -24,7 +24,7 @@ const Navbar = () => {
         <div className="navbar bg-base-300">
           <div className="navbar-start pb-1">
             <NavbarDropdownResponsive />
-            <a href="/" className="btn btn-ghost text-3xl px-8 font-serif">FE-Testing</a>
+            <a href="/" className="btn btn-ghost text-2xl px-8 font-serif">BusinessTest</a>
             <a className='rounded-lg font-medium text-base px-8 hidden md:block' href="/">Home</a>
           </div>
           <div className="navbar-end px-3 pb-1">
