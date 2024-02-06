@@ -37,13 +37,16 @@ const GoogleMaps = () => {
 
   return (
     <div className='bg-base-100 p-5 rounded-xl mb-5'>
-      <div className='flex justify-between items-center mb-4'>
-        <p>Search by nearby location "500m"</p>
+      <div className='flex-row md:flex justify-between items-center mb-4'>
+        <div className='flex-row'>
+          <p>Search by nearby location "500m"</p>
+          <p className='text-sm font-semibold'>Click on map</p>
+        </div>
         <button onClick={() => {
           scrollPageToTop()
           dispatch(changePayloadOffset(0))
           dispatch(fetchBusiness())
-        }} className='btn bg-base-300 hover:bg-base-200'>Select this area</button>
+        }} className='btn bg-base-300 hover:bg-base-200 mt-4 md:mt-0 w-full md:w-36'>Select this area</button>
       </div>
       <GoogleMap
         mapContainerStyle={{ height: '400px', width: '100%' }}

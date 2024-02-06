@@ -8,6 +8,7 @@ import GalleryImages from '../components/detailPage/GalleryImages'
 import MockupBusiness from '../components/detailPage/MockupBusiness'
 import Transactions from '../components/detailPage/Transactions'
 import ReviewSection from '../components/detailPage/ReviewSection'
+import MapsDetailPage from '../components/detailPage/MapsDetailPage'
 
 const DetailBusiness = () => {
   let { aliasBusiness } = useParams()
@@ -38,6 +39,7 @@ const DetailBusiness = () => {
                 </div>
               </div>
               <ReviewSection aliasBusiness={aliasBusiness} />
+              <MapsDetailPage />
             </div>
           </div>
         </>

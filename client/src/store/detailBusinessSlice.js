@@ -5,6 +5,7 @@ export const detailBusiness = createSlice({
     name: 'detailBusiness',
     initialState: {
         dataDetailBusiness: {},
+        locationCenterDetailMap: {},
         isLoading: false,
         dataReviewBusiness: {},
         isLoadingReview: false,
@@ -12,6 +13,9 @@ export const detailBusiness = createSlice({
     reducers: {
         changeDataDetailBusiness: (state, action) => {
             state.dataDetailBusiness = action.payload
+        },
+        changeLocationCenterDetailMap: (state, action) => {
+            state.locationCenterDetailMap = action.payload
         },
         changeIsLoading: (state, action) => {
             state.isLoading = action.payload
@@ -27,6 +31,7 @@ export const detailBusiness = createSlice({
 
 export const {
     changeDataDetailBusiness,
+    changeLocationCenterDetailMap,
     changeIsLoading,
     changeDataReviewBusiness,
     changeIsLoadingReview,
@@ -45,6 +50,10 @@ export function fetchDetailHome(alias) {
                 }
             })
             dispatch(changeDataDetailBusiness(data))
+            dispatch(changeLocationCenterDetailMap({
+                lat: data.coordinates.latitude,
+                lng: data.coordinates.longitude,
+            }))
         } catch (error) {
             console.log(error)
         } finally {
@@ -59,7 +68,7 @@ export function fetchReviewBusiness(alias) {
             dispatch(changeIsLoadingReview(true))
             let { data } = await axios({
                 method: 'get',
-                url: `${import.meta.env.VITE_BASE_URL}/businesses/${alias}/reviews?offset=0&limit=4`,
+                url: `${import.meta.env.VITE_BASE_URL}/businesses/${alias}/reviews?offset=0&limit=3`,
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`
