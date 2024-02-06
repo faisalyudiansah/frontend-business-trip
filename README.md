@@ -12,6 +12,7 @@ VITE_GOOGLE_MAPS_KEY=AIzaSyCwtwSZmkOwajOw3Kqn00WynmVqwPUf_gQ
 ## TechStack :
 - React JS
 - Vite
+- Axios
 - Redux
 - Tailwind CSS
 - DaisyUI
