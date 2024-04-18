@@ -1,13 +1,4 @@
-# 62teknologi frontend test - Muhammad Faisal Yudiansah
-
-## .env (I will remove .env from the readme within a month)
-`Copy this to your .env` <br>
-`Don't include spaces`
-```
-VITE_BASE_URL=https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3
-VITE_API_KEY=Ubf1-f0uqsJUnssqPMGo-tiFeZTT85oFmKfznlPmjDtX8s83jYMoAb-ApuD63wgq6LDZNsUXG6gurZIVYaj2jzxJmmLdCdXbDqIHU_b6KiCEVi8v-YB0OSsW6MWaY3Yx
-VITE_GOOGLE_MAPS_KEY=AIzaSyCwtwSZmkOwajOw3Kqn00WynmVqwPUf_gQ
-```
+# frontend
 
 ## TechStack :
 - React JS
